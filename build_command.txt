@@ -1,1 +1,1 @@
-clang++ -std=c++20 -Wall -Wextra -o solve part1.cpp
+clang++ -std=c++20 -Wall -Wextra -I../lib -L../lib -o solve part1.cpp -lutils

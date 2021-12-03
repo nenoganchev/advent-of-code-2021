@@ -1,2 +1,4 @@
 **/*input*.txt
 **/solve
+lib/*.a
+lib/*.o
