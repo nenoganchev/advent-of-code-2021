@@ -1,23 +1,15 @@
 #include "string_utils.h"
+#include <cstring>
 
 //
-// split
+// skip implementation
 //
 
-vector<string> split(const string &string_to_split, const typename::string &separator) {
-    vector<typename::string> result;
+skip::skip(const char *s): skipped_characters(s) {}
 
-    size_t i_begin = 0;
-    size_t i_sep;
-    do
-    {
-        i_sep = string_to_split.find(separator, i_begin);
-        result.push_back(string_to_split.substr(i_begin, i_sep - i_begin));
-        i_begin = i_sep + separator.size();
-    }
-    while (i_sep != string::npos);
-
-    return result;
+istream & operator >> (istream &is, const skip &manip) {
+    while (is && strchr(manip.skipped_characters, is.peek())) is.ignore();
+    return is;
 }
 
 //
@@ -35,4 +27,30 @@ istream & operator >> (istream &is, const expect &manip) {
     }
 
     return is;
+}
+
+//
+// functions implementation
+//
+
+void expect_line(istream &is, const string &expected_line) {
+    string line;
+    getline(is, line);
+    if (line != expected_line) throw runtime_error("expect_line failed");
+}
+
+vector<string> split(const string &string_to_split, const typename::string &separator) {
+    vector<typename::string> result;
+
+    size_t i_begin = 0;
+    size_t i_sep;
+    do
+    {
+        i_sep = string_to_split.find(separator, i_begin);
+        result.push_back(string_to_split.substr(i_begin, i_sep - i_begin));
+        i_begin = i_sep + separator.size();
+    }
+    while (i_sep != string::npos);
+
+    return result;
 }
