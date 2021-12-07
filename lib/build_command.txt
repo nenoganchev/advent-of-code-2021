@@ -1,2 +1,2 @@
-clang++ -std=c++20 -Wall -Wextra -Wnon-gcc -c string_utils.cpp
+clang++ -std=c++20 -O2 -Wall -Wextra -Wnon-gcc -c string_utils.cpp
 ar rcs libutils.a *utils.o
