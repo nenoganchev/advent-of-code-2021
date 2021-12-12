@@ -20,3 +20,4 @@ struct expect {
 
 void expect_line(istream &is, const string &expected_line);
 vector<string> split(const string &string_to_split, const string &separator);
+string join(const vector<string> &parts, const string &delimiter);

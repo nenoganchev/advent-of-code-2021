@@ -54,3 +54,15 @@ vector<string> split(const string &string_to_split, const typename::string &sepa
 
     return result;
 }
+
+string join(const vector<string> &parts, const string &delimiter) {
+    string joined_string;
+    string curr_delimiter;
+
+    for (const string &part : parts) {
+        joined_string += curr_delimiter + part;
+        curr_delimiter = delimiter;
+    }
+
+    return joined_string;
+}
