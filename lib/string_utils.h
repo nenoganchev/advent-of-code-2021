@@ -20,4 +20,16 @@ struct expect {
 
 void expect_line(istream &is, const string &expected_line);
 vector<string> split(const string &string_to_split, const string &separator);
-string join(const vector<string> &parts, const string &delimiter);
+
+template<class T>
+string join(const vector<T> &parts, const string &delimiter) {
+    ostringstream join_stream;
+    string curr_delimiter;
+
+    for (const T &part : parts) {
+        join_stream << curr_delimiter << part;
+        curr_delimiter = delimiter;
+    }
+
+    return join_stream.str();
+}
