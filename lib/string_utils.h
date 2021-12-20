@@ -1,6 +1,7 @@
 #include <vector>
 #include <string>
 #include <istream>
+#include <sstream>
 
 using namespace std;
 
@@ -19,6 +20,7 @@ struct expect {
 };
 
 void expect_line(istream &is, const string &expected_line);
+void expect_line_starting_with(istream &is, const string &expected_line_start);
 vector<string> split(const string &string_to_split, const string &separator);
 
 template<class T>

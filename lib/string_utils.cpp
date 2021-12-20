@@ -39,6 +39,12 @@ void expect_line(istream &is, const string &expected_line) {
     if (line != expected_line) throw runtime_error("expect_line failed");
 }
 
+void expect_line_starting_with(istream &is, const string &expected_line_start) {
+    string line;
+    getline(is, line);
+    if (!line.starts_with(expected_line_start)) throw runtime_error("expect_line_starting_with failed");
+}
+
 vector<string> split(const string &string_to_split, const typename::string &separator) {
     vector<typename::string> result;
 
