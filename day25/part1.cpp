@@ -38,7 +38,7 @@ int main(int argc, char *argv[]) {
 
     seafloor_map map(filename);
 
-    cout << "Initial map:" << endl;
+    cout << "Initial map (x: " << map.size_x() << ", y: " << map.size_y() << "):" << endl;
     map.print();
 
     cout << "Equilibrium reached after: " << steps_to_equilibrium(map) << " steps" << endl;
@@ -47,37 +47,25 @@ int main(int argc, char *argv[]) {
 seafloor_map::seafloor_map(const string &filename) {
     ifstream input_file(filename);
 
-    this->_size_x = this->_size_y = 0;
-    size_t map_width = 0;
-
-    int c;
-    while ((c = input_file.get()) != ifstream::traits_type::eof()) {
-        tile_type tile;
+    auto char_to_tile = [](char c) {
         switch (c) {
-        case '>':
-            tile = east;
-            break;
-
-        case 'v':
-            tile = south;
-            break;
-
-        case '.':
-            tile = empty;
-            break;
-
-        case '\n':
-            this->_size_x = map_width;
-            ++this->_size_y;
-            map_width = 0;
-            continue;
-
-        default:
-            throw runtime_error("Invalid tile type");
+        case '>': return east;
+        case 'v': return south;
+        case '.': return empty;
+        default: throw runtime_error("Invalid tile type");
         }
+    };
 
-        this->buffer.push_back(tile);
-        ++map_width;
+    this->_size_y = 0;
+
+    string line;
+    while (getline(input_file, line)) {
+        this->_size_x = line.size();
+        ++this->_size_y;
+
+        for (char c : line) {
+            this->buffer.push_back(char_to_tile(c));
+        }
     }
 }
 
@@ -89,7 +77,7 @@ size_t seafloor_map::size_x() const {
 }
 
 size_t seafloor_map::size_y() const {
-    return this->_size_x;
+    return this->_size_y;
 }
 
 seafloor_map::tile_type seafloor_map::at(size_t x, size_t y) const {
@@ -115,21 +103,24 @@ void seafloor_map::print() const {
         }
     };
 
+    cout << endl;
     for (size_t y = 0; y < this->_size_y; ++y) {
         for (size_t x = 0; x < this->_size_x; ++x) {
             cout << tile_to_char(this->at(x, y));
         }
         cout << endl;
     }
+    cout << endl;
 }
 
 int steps_to_equilibrium(seafloor_map &map) {
     int steps = 0;
     for (;;) {
         seafloor_map new_map = simulate_step(map);
+        ++steps;
+
         if (new_map == map) return steps;
 
-        ++steps;
         map = move(new_map);
     }
 }
