@@ -1,0 +1,2 @@
+clang++-15 -std=c++2b -g --analyze -Wall -Wextra -Wnon-gcc -o test test.cpp
+clang-tidy-15 -checks="-*,bugprone-*,cert-*,clang-analyzer-*,-clang-analyzer-osx*,-clang-analyzer-webkit*,concurrency-*,cppcoreguidelines-*,misc-*,modernize-*,performance-*,portability-*,readability-*,-modernize-use-trailing-return-type,-readability-identifier-length" test.cpp -- -std=c++2b -g -Wall -Wextra -Wnon-gcc
